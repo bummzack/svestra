@@ -13,12 +13,13 @@ export async function get(req, res) {
 
   const {slug} = req.params;
   try {
-    if (slug !== 'index') {
+    if (slug && slug !== 'index') {
       backendUrl.searchParams.set('slug', slug);
     }
     const headers = new fetch.Headers();
 
     if (STAGE !== 'live' && req.session) {
+      console.log(req.session.token);
       headers.append('Authorization', `Bearer ${req.session.token}`);
     }
     const response = await fetch(backendUrl, {headers});
